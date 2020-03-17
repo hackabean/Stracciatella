@@ -9,11 +9,11 @@ using System.Globalization;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace PowerSharp
+namespace Stracciatella
 {
-    class PowerSharp
+    class Stracciatella
     {
-        private static string GLOBAL_PROMPT_PREFIX = "PowerSharp";
+        private static string GLOBAL_PROMPT_PREFIX = "Stracciatella";
 
         internal class Options
         {
@@ -50,7 +50,7 @@ namespace PowerSharp
         private static void PrintBanner()
         {
             Console.WriteLine("");
-            Console.WriteLine("  :: PowerSharp - Powershell runspace with AMSI and Script Block Logging disabled.");
+            Console.WriteLine("  :: Stracciatella - Powershell runspace with AMSI and Script Block Logging disabled.");
             Console.WriteLine("  Mariusz B. / mgeeky, '19 <mb@binary-offensive.com>");
             Console.WriteLine("");
         }
